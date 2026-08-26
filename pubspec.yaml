@@ -1,0 +1,25 @@
+name: mon_agenda
+description: Application locale tout-en-un (emploi du temps, tâches, notes, déplacements, sport, Barça)
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  sqflite: ^2.3.3           # base de données locale SQLite, 100% offline
+  path: ^1.9.0
+  flutter_local_notifications: ^17.2.2  # rappels locaux, aucune connexion requise
+  timezone: ^0.9.4          # nécessaire pour planifier les notifications précisément
+  intl: ^0.19.0             # formatage dates en français
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
