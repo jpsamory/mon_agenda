@@ -1,0 +1,38 @@
+name: Build iOS App
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Récupérer les dépendances
+        run: flutter pub get
+
+      - name: Build iOS (sans signature, pour usage sideload)
+        run: flutter build ios --release --no-codesign
+
+      - name: Créer le fichier .ipa
+        run: |
+          mkdir -p build/ios/iphoneos/Payload
+          cp -r build/ios/iphoneos/Runner.app build/ios/iphoneos/Payload/
+          cd build/ios/iphoneos
+          zip -r mon_agenda.ipa Payload
+
+      - name: Publier le .ipa comme artifact téléchargeable
+        uses: actions/upload-artifact@v4
+        with:
+          name: mon_agenda-ipa
+          path: build/ios/iphoneos/mon_agenda.ipa
